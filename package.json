@@ -182,6 +182,7 @@
     },
     "build": {
       "files":["*.js"],
+      "output": ["lib/**"],
       "dependencies": [
         "./packages/victory-native:build",
         "./packages/victory-vendor:build",
