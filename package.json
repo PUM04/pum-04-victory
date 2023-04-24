@@ -114,6 +114,7 @@
       "@types/eslint": "8.4.3"
     }
   },
+  "files": ["*.js"],
   "scripts": {
     "version": "pnpm changeset version && pnpm install --no-frozen-lockfile",
     "publish": "nps git:tag && pnpm changeset publish --no-git-tag",
