@@ -115,7 +115,6 @@
     }
   },
   "scripts": {
-    "prepare": "npm run build",
     "version": "pnpm changeset version && pnpm install --no-frozen-lockfile",
     "publish": "nps git:tag && pnpm changeset publish --no-git-tag",
     "changeset": "changeset",
@@ -132,6 +131,7 @@
     "build": "wireit",
     "build:lib:esm": "wireit",
     "build:typescript": "wireit",
+    "prepare": "npm run build",
     "format": "wireit",
     "format:fix": "wireit",
     "format:root": "wireit",
