@@ -53,6 +53,45 @@ const getLowWickProps = (props, style) => {
   };
 };
 
+// NEW
+const getFloorProps = (props, style) => {
+  const { low, candleWidth, id, x, horizontal } = props;
+  return {
+    key: `${id}-floor`,
+    style: Helpers.omit(style, ["width"]),
+    x1: horizontal ? low : x-candleWidth/2,
+    x2: horizontal ? low : x+candleWidth/2,
+    y1: horizontal ? x-candleWidth/2 : low,
+    y2: horizontal ? x+candleWidth/2 : low,
+  };
+};
+
+// NEW
+const getMeanProps = (props, style) => {
+  const { mean, candleWidth, id, x, horizontal } = props;
+  return {
+    key: `${id}-mean`,
+    style: Helpers.omit(style, ["width"]),
+    x1: horizontal ? mean : x-candleWidth/2,
+    x2: horizontal ? mean : x+candleWidth/2,
+    y1: horizontal ? x-candleWidth/2 : mean,
+    y2: horizontal ? x+candleWidth/2 : mean,
+  };
+};
+
+// NEW
+const getRoofProps = (props, style) => {
+  const { high, candleWidth, id, x, horizontal} = props;
+  return {
+    key: `${id}-roof`,
+    style: Helpers.omit(style, ["width"]),
+    x1: horizontal ? high : x-candleWidth/2,
+    x2: horizontal ? high : x+candleWidth/2,
+    y1: horizontal ? x-candleWidth/2 : high,
+    y2: horizontal ? x+candleWidth/2 : high,
+  };
+};
+
 const evaluateProps = (props) => {
   /**
    * Potential evaluated props of following must be evaluated in this order:
@@ -122,14 +161,23 @@ const Candle = (props) => {
   const candleProps = assign(getCandleProps(props, style), sharedProps);
   const highWickProps = assign(getHighWickProps(props, wickStyle), sharedProps);
   const lowWickProps = assign(getLowWickProps(props, wickStyle), sharedProps);
+  // NEW
+  const roofProps = assign(getRoofProps(props, wickStyle), sharedProps);
+  const floorProps = assign(getFloorProps(props, wickStyle), sharedProps);
+  const meanProps = assign(getMeanProps(props, wickStyle), sharedProps);
 
   return React.cloneElement(groupComponent, {}, [
     React.cloneElement(rectComponent, candleProps),
     React.cloneElement(lineComponent, highWickProps),
     React.cloneElement(lineComponent, lowWickProps),
+    // NEW
+    React.cloneElement(lineComponent, roofProps),
+    React.cloneElement(lineComponent, floorProps),
+    React.cloneElement(lineComponent, meanProps),
   ]);
 };
-
+  console.log(PropTypes.number);
+// mean is new below
 Candle.propTypes = {
   ...CommonProps.primitiveProps,
   candleRatio: PropTypes.number,
@@ -145,6 +193,7 @@ Candle.propTypes = {
   wickStrokeWidth: PropTypes.number,
   width: PropTypes.number,
   x: PropTypes.number,
+  mean: PropTypes.number,
 };
 
 Candle.defaultProps = {
@@ -156,3 +205,4 @@ Candle.defaultProps = {
 };
 
 export default Candle;
+

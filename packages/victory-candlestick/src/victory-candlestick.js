@@ -12,6 +12,7 @@ import {
   UserProps,
 } from "victory-core";
 import { isNil, flatten } from "lodash";
+// NEW
 import Candle from "./candle";
 import { getDomain, getData, getBaseProps } from "./helper-methods";
 
@@ -69,6 +70,7 @@ class VictoryCandlestick extends React.Component {
   static role = "candlestick";
   static defaultTransitions = DefaultTransitions.discreteTransitions();
 
+// mean NEW below
   static propTypes = {
     ...CommonProps.baseProps,
     ...CommonProps.dataProps,
@@ -118,6 +120,15 @@ class VictoryCandlestick extends React.Component {
         eventHandlers: PropTypes.object,
       }),
     ),
+    mean: PropTypes.oneOfType([
+      PropTypes.func,
+      CustomPropTypes.allOfType([
+        CustomPropTypes.integer,
+        CustomPropTypes.nonNegative,
+      ]),
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
     high: PropTypes.oneOfType([
       PropTypes.func,
       CustomPropTypes.allOfType([
@@ -186,12 +197,11 @@ class VictoryCandlestick extends React.Component {
     }),
     wickStrokeWidth: PropTypes.number,
   };
-
   static defaultProps = {
     defaultCandleWidth: 8,
     containerComponent: <VictoryContainer />,
     data: defaultData,
-    dataComponent: <Candle />,
+    dataComponent: <CustomCandle />,
     groupComponent: <g role="presentation" />,
     labelComponent: <VictoryLabel />,
     highLabelComponent: <VictoryLabel />,
@@ -235,8 +245,7 @@ class VictoryCandlestick extends React.Component {
 
   renderCandleData(props, shouldRenderDatum = datumHasXandY) {
     const { dataComponent, labelComponent, groupComponent } = props;
-    const types = ["close", "open", "low", "high"];
-
+    const types = ["close", "open", "low", "high" ];
     const dataComponents = this.dataKeys.reduce(
       (validDataComponents, _dataKey, index) => {
         const dataProps = this.getComponentProps(dataComponent, "data", index);
@@ -306,3 +315,4 @@ class VictoryCandlestick extends React.Component {
 }
 
 export default addEvents(VictoryCandlestick, options);
+
