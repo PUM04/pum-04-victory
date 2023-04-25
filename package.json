@@ -131,7 +131,7 @@
     "build": "wireit",
     "build:lib:esm": "wireit",
     "build:typescript": "wireit",
-    "prepare": "npm run build",
+    "prepare": "pnpm run build",
     "format": "wireit",
     "format:fix": "wireit",
     "format:root": "wireit",
